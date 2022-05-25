@@ -30,6 +30,9 @@ public class User implements Serializable {
     @TableField("openId")
     private Integer openid;
 
+    @TableField("userinfoId")
+    private Integer userinfoid;
+
     /**
      * 创建时间
      */
