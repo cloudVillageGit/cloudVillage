@@ -41,6 +41,9 @@ public class Address implements Serializable {
     @TableField("defaultAddress")
     private Boolean defaultaddress;
 
+
+
+
     @TableLogic
     private Integer delLogic;
 

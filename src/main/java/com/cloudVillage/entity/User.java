@@ -19,6 +19,7 @@ import lombok.EqualsAndHashCode;
  * @author 熊炜
  * @since 2022-05-24
  */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class User implements Serializable {
@@ -28,7 +29,7 @@ public class User implements Serializable {
     private Integer id;
 
     @TableField("openId")
-    private Integer openid;
+    private String openid;
 
     @TableField("userinfoId")
     private Integer userinfoid;
@@ -55,6 +56,12 @@ public class User implements Serializable {
      * 田币
      */
     private BigDecimal coin;
+
+    /**
+     * 用户登录Token
+     */
+    @TableField("userToken")
+    private String userToken;
 
     /**
      * 逻辑删除位 0未删除 1已删除

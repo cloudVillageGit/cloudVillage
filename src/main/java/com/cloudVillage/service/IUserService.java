@@ -1,5 +1,6 @@
 package com.cloudVillage.service;
 
+import com.cloudVillage.config.ResponseResult;
 import com.cloudVillage.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-05-24
  */
 public interface IUserService extends IService<User> {
+    ResponseResult<User> login(String openId, String userToken);
+    int checkToken(String userToken);
 
 }

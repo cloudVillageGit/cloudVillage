@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-05-24
  */
 public interface IFarmService extends IService<Farm> {
-
+    void selectAll();
 }

@@ -19,8 +19,8 @@ mybatis-plus:
       #本意是想加载resources目录下的com/example/下的所有xml文件，
       #但是由于java和resources目录都有com/example目录，而上述配置在有相同目录的情况下，
       #默认扫描的是java目录下的文件，从而导致xml文件加载不到。
-      # 自定义sql语句 扫描/mapper/文件目录下的任意包任意xml文件
-  mapper-locations: classpath:mapper/*Mapper.xml
+      # 自定义sql语句 扫描/mapper/xml文件目录下的任意包任意xml文件
+  mapper-locations: classpath*:mapper/xml/*Mapper.xml
   #控制台输出
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
