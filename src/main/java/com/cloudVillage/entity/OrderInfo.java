@@ -59,7 +59,7 @@ public class OrderInfo implements Serializable {
      * 订单编号
      */
     @TableField("orderNum")
-    private Integer ordernum;
+    private String ordernum;
 
     /**
      * 逻辑删除位 0未删除 1已删除

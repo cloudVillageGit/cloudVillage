@@ -1,5 +1,6 @@
 package com.cloudVillage.service;
 
+import com.cloudVillage.config.ResponseResult;
 import com.cloudVillage.entity.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-05-24
  */
 public interface ICategoryService extends IService<Category> {
-
+    public ResponseResult CategoryList(String keyWord);
 }

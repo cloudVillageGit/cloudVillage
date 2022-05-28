@@ -8,6 +8,7 @@ import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.omg.PortableInterceptor.INACTIVE;
 
 /**
  * <p>
@@ -33,7 +34,7 @@ public class OrderProduct implements Serializable {
     private Integer productid;
 
     @TableField("evaluateId")
-    private String evaluateid;
+    private Integer evaluateid;
 
     /**
      * 逻辑删除位 0未删除 1已删除

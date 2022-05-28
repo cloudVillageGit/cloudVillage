@@ -26,8 +26,16 @@ public class Login {
     @Autowired
     private UserServiceImpl loginService;
 
+    /**
+     * 判断用户是否注册
+     * @param code wx.login获取
+     * @param avatarUrl wx.getUserProfile获取 用于存储用户头像
+     * @param nickName wx.getUserProfile获取 用于储存用户昵称
+     * @return
+     */
     @PostMapping("Login")
-    public ResponseResult decodeOpenid(@RequestParam("code") String code) {
+    public ResponseResult decodeOpenid(@RequestParam("code") String code,@RequestParam("avatarUrl")String avatarUrl,@RequestParam("nickName")String nickName) {
+
         String appId = "wx123be454dd245a7a";
         String appSecret = "93ad002ca51fcd016b9675c1b0cc4dda";
         // 对指定网站发送请求
@@ -55,7 +63,7 @@ public class Login {
             // 将openId和token传递到服务层，做下一步业务处理
 
             // 获取用户登录信息
-            ResponseResult<User> dataPojo = loginService.login((String)openId, token);
+            ResponseResult<User> dataPojo = loginService.login((String)openId, token,avatarUrl,nickName);
 
             System.out.println("成功获取用户授权信息");
             // 将获取返回的数据加入统一风格的json响应中
@@ -64,12 +72,12 @@ public class Login {
             System.out.println("无法获取用户授权信息");
 //            out.print(new Gson().toJson(new BaseDataPojo<LoginSession>("无法获取用户授权信息", false, null)));
 
-            return new ResponseResult<User>(500,"成功获取用户授权信息",null);
+            return new ResponseResult<User>(500,"无法获取用户授权信息",null);
         }
     }
 
     /**
-     * 请求参数
+     * 查询token是否还有效
      * @param userToken 从前端返回的token
      */
     @PostMapping("CheckLogin")

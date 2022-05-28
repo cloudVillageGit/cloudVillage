@@ -27,13 +27,13 @@ public class Category implements Serializable {
     private Integer id;
 
     @TableField("categoryTop")
-    private Integer categorytop;
+    private String categorytop;
 
     @TableField("categorySecond")
-    private Integer categorysecond;
+    private String categorysecond;
 
     @TableField("categoryThird")
-    private Integer categorythird;
+    private String categorythird;
 
     /**
      * 逻辑删除位 0未删除 1已删除

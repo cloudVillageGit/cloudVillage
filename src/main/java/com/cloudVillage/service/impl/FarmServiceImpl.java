@@ -1,11 +1,17 @@
 package com.cloudVillage.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.cloudVillage.config.ResponseResult;
 import com.cloudVillage.entity.Farm;
+import com.cloudVillage.entity.UserRealInfo;
 import com.cloudVillage.mapper.FarmMapper;
 import com.cloudVillage.service.IFarmService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -22,8 +28,39 @@ public class FarmServiceImpl extends ServiceImpl<FarmMapper, Farm> implements IF
     private FarmMapper farmMapper;
 
     @Override
-    public void selectAll() {
-        Farm farm = farmMapper.selectById(1);
-        System.out.println(farm.toString());
+    public int updateFarm(Farm farm) {
+        UpdateWrapper<Farm> farmUpdateWrapper = new UpdateWrapper<>();
+        farmUpdateWrapper.eq("id",farm.getId());
+        int update = farmMapper.update(farm, farmUpdateWrapper);
+        return update;
+    }
+
+    @Override
+    public int deleteFarm(Integer id) {
+        QueryWrapper<Farm> farmQueryWrapper = new QueryWrapper<>();
+        farmQueryWrapper.eq("id",id);
+        List<Farm> farms = farmMapper.selectList(farmQueryWrapper);
+        if(farms.size() == 0){
+            return -1;
+        }
+        int delete = farmMapper.delete(farmQueryWrapper);
+        return delete;
+    }
+
+    @Override
+    public int insertFarm(Farm farm) {
+        int insert = farmMapper.insert(farm);
+        return insert;
+    }
+
+    @Override
+    public ResponseResult selectFarm(Integer id) {
+        QueryWrapper<Farm> farmQueryWrapper = new QueryWrapper<>();
+        farmQueryWrapper.eq("id",id);
+        List<Farm> farms = farmMapper.selectList(farmQueryWrapper);
+        if(farms.size()==0){
+            return new ResponseResult(500,"查询失败");
+        }
+        return new ResponseResult(farms.get(0));
     }
 }

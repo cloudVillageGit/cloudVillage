@@ -26,23 +26,17 @@ public class Address implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String province;
-
-    private String city;
-
-    private String region;
-
-    @TableField("detailAddress")
-    private String detailaddress;
+    private String delivery;
 
     @TableField("userId")
-    private Integer userid;
-
+    private Integer userId;
+;
     @TableField("defaultAddress")
-    private Boolean defaultaddress;
+    private Boolean defaultAddress;
 
+    private String phone;
 
-
+    private String name;
 
     @TableLogic
     private Integer delLogic;

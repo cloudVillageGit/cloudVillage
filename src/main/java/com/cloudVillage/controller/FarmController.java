@@ -5,7 +5,10 @@ import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
 import com.cloudVillage.config.ResponseResult;
 import com.cloudVillage.entity.Farm;
+import com.cloudVillage.entity.UserRealInfo;
 import com.cloudVillage.mapper.FarmMapper;
+import com.cloudVillage.service.IFarmService;
+import com.cloudVillage.service.IFarmerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,29 +27,67 @@ import java.util.List;
 @RequestMapping("/farm")
 public class FarmController {
     @Autowired
-    private FarmMapper farmMapper;
+    private IFarmService farmService;
 
-    @GetMapping("hefa")
-    public ResponseResult farmList(){
-        JSONObject jsonObject = new JSONObject();
-        List<Farm> farms = farmMapper.selectList(null);
-        jsonObject.put("hello","findOne");
-
-        jsonObject.append("farmList",farms);
-
-        return new ResponseResult(200,"查询成功",jsonObject);
+    /**
+     * 更新农场信息
+     * @param farm
+     * @return
+     */
+    @PutMapping("updateFarm")
+    public ResponseResult updateFarm(@RequestBody Farm farm){
+        int update = farmService.updateFarm(farm);
+        if(update==0){
+            return new ResponseResult(500,"更新农场信息失败");
+        }else{
+            return new ResponseResult(200,"更新农场信息成功");
+        }
     }
-    @GetMapping("he/{id}")
-    public ResponseResult farm(@PathVariable Integer id){
-        Farm farm = farmMapper.selectById(id);
-        return new ResponseResult(200,"hello",farm);
+
+    /**
+     * 删除农场信息
+     * @param id
+     * @return
+     */
+    @DeleteMapping("deleteFarm")
+    public ResponseResult deleteFarm(@RequestParam Integer id){
+        int deleteFarm = farmService.deleteFarm(id);
+        if(deleteFarm==1){
+            return new ResponseResult(200,"删除农场成功");
+        }else if(deleteFarm==-1){
+            return new ResponseResult(500,"需要删除的农场不存在");
+        }else {
+            return new ResponseResult(500,"删除农场失败");
+        }
     }
-    @PostMapping("update")
-    public ResponseResult farmUpdate(@RequestParam String profiles,@RequestParam Integer rank){
-        String str = "helloworld";
-        Farm farm = farmMapper.selectById(1);
-        farm.setProfiles(profiles);
-        farmMapper.updateById(farm);
-        return new ResponseResult(200,"操作成功");
+
+    /**
+     * 通过id获取农场信息
+     * @param id
+     * @return
+     */
+    @GetMapping("selectFarm/{id}")
+    public ResponseResult selectFarm(@PathVariable Integer id){
+        ResponseResult selectFarm = farmService.selectFarm(id);
+        if(selectFarm.getCode()==null){
+            return new ResponseResult(200,"查询农场信息成功",selectFarm);
+        }else{
+            return new ResponseResult(500,"查询农场信息失败");
+        }
+    }
+
+    /**
+     * 插入农场信息
+     * @param farm
+     * @return
+     */
+    @PostMapping("insertFarm")
+    public ResponseResult insertFarm(@RequestBody Farm farm){
+        int insertFarm = farmService.insertFarm(farm);
+        if(insertFarm == 1){
+            return new ResponseResult(200,"插入农场成功");
+        }else{
+            return new ResponseResult(500,"插入农场失败");
+        }
     }
 }

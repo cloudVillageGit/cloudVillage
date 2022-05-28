@@ -55,4 +55,8 @@ public class ResponseResult<T> {
         this.msg = msg;
         this.data = data;
     }
+
+    public ResponseResult(T data) {
+        this.data = data;
+    }
 }
