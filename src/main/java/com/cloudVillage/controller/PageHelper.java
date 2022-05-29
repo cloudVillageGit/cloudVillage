@@ -1,5 +1,6 @@
 package com.cloudVillage.controller;
 
+import cn.hutool.json.JSONObject;
 import com.cloudVillage.Util.PageListUtil;
 import com.cloudVillage.config.ResponseResult;
 import com.cloudVillage.entity.crossResult.OrderDetail;
@@ -43,7 +44,10 @@ public class PageHelper {
         PageListUtil pageListUtil = new PageListUtil();
         Page pages = pageListUtil.getPages(currentPage, pageSize, products);
 
-        return new ResponseResult(200,"查询成功",pages.getRecords());
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("list",pages.getRecords());
+        jsonObject.put("total",products.size());
+        return new ResponseResult(200,"查询成功",jsonObject);
     }
 
 
@@ -57,8 +61,11 @@ public class PageHelper {
 
         PageListUtil pageListUtil = new PageListUtil();
         Page pages = pageListUtil.getPages(currentPage, pageSize, orderDetails);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("list",pages.getRecords());
+        jsonObject.put("total",orderDetails.size());
 
-        return new ResponseResult(200,"查询成功",pages.getRecords());
+        return new ResponseResult(200,"查询成功",jsonObject);
 
     }
 }

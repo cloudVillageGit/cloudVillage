@@ -54,10 +54,10 @@ public class UploadImageServiceImpl implements UploadImageService {
 
     private void init() {
         // 构造一个带指定Zone对象的配置类, 注意这里的Zone.zone0需要根据主机选择
-        uploadManager = new UploadManager(new Configuration(Zone.zone2()));
+        uploadManager = new UploadManager(new Configuration(Zone.zone0()));
         auth = Auth.create(qiNiuYunConfig.getAccessKey(), qiNiuYunConfig.getSecretKey());
         // 根据命名空间生成的上传token
-        bucketManager = new BucketManager(auth, new Configuration(Zone.zone2()));
+        bucketManager = new BucketManager(auth, new Configuration(Zone.zone0()));
         token = auth.uploadToken(qiNiuYunConfig.getBucketName());
     }
 

@@ -8,6 +8,7 @@ package com.cloudVillage.controller;
  * @Description:
  */
 
+import com.cloudVillage.config.ResponseResult;
 import com.cloudVillage.service.UploadImageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -30,15 +31,13 @@ public class UploadController {
 
 
     @PostMapping(value = "/image")
-    private String upLoadImage(@RequestParam("file") MultipartFile file, Model model) {
-
+    @ResponseBody
+    private ResponseResult upLoadImage(@RequestParam("file") MultipartFile file) {
+        //System.out.println(file);
         if (!file.isEmpty()) {
             String path = uploadImageService.uploadQNImg(file);
-            System.out.print("七牛云返回的图片链接:" + path);
-            model.addAttribute("link",path);
-            return "upload";
         }
-        return "";
+        return new ResponseResult(200);
     }
 
     /*

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cloudVillage.Util.PageListUtil;
+import com.cloudVillage.config.QiNiuYunConfig;
 import com.cloudVillage.controller.PageHelper;
 import com.cloudVillage.entity.crossResult.ProductDetail;
 import com.cloudVillage.service.IProductService;
@@ -44,6 +45,9 @@ public class GeneratorTest {
     @Autowired
     private IProductService productService;
 
+    @Autowired
+    private QiNiuYunConfig qiNiuYunConfig;
+
     @Test
     public void test(){
 //        Page<ProductDetail> page = new Page<>();
@@ -57,5 +61,7 @@ public class GeneratorTest {
 //        System.out.println(pages.getRecords());
 //        PageHelper pageHelper = new PageHelper();
 //        pageHelper.selectOrdersFBE(1,)
+
+        System.out.println(qiNiuYunConfig.toString());
     }
 }
