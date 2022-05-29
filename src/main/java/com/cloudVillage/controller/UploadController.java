@@ -47,9 +47,8 @@ public class UploadController {
      **/
     @ResponseBody
     @DeleteMapping("/remove")
-    public String removeFile(){
-        uploadImageService.removeFile("wyhdsg","0b677574afdf4a8ea1271108f1176bde.jpg");
+    public String removeFile(@RequestParam String fileKey){
+        uploadImageService.removeFile("cloudtestimg",fileKey);
         return "删除成功";
     }
-
 }
