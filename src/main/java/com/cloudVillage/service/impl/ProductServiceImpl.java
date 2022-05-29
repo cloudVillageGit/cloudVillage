@@ -42,14 +42,6 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     @Autowired
     private FarmMapper farmMapper;
 
-//    @Autowired
-//    private Class
-
-    /**
-     * 初步查询
-     * @param keyWord 搜索关键字
-     * @return 对应主图url与农产品表中的所有字段
-     */
     @Override
     public ResponseResult searchProduct(String keyWord) {
         // 根据输入关键字进行模糊查询
@@ -91,12 +83,6 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         return new ResponseResult(searchResultList);
     }
 
-
-    /**
-     * 详细查询 每个农产品所关联的字段
-     * @param id 查询id
-     * @return 返回农产品详细信息
-     */
     @Override
     public ResponseResult productDetail(Integer id) {
         ProductDetail productDetail = new ProductDetail();
@@ -112,6 +98,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
 
         // 只有一个实体对象
         Product product = products.get(0);
+
+        // 给product
+        productDetail.setProduct(product);
 
         // 查询对应分类
         QueryWrapper<Category> categoryQueryWrapper = new QueryWrapper<>();
@@ -143,11 +132,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         List<ProductSmall> productSmallList = productSmallMapper.selectList(productSmallWrapper);
         // 未查询到数据
         if(productSmallList.size()==0){
-            return new ResponseResult(500,"农场查询失败");
+//            return new ResponseResult(500,"农场查询失败");
+            productDetail.setProductSmallList(null);
+        }else {
+            // 农产品*属性*赋值
+            productDetail.setProductSmallList(productSmallList);
         }
-        // 农产品*属性*赋值
-        productDetail.setProductSmallList(productSmallList);
-
         // 农产品图片
         // 查询结果相对应的图片
         QueryWrapper<Picture> pictureQueryWrapper = new QueryWrapper<>();
@@ -162,15 +152,17 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         List<String> mainPicturesUrl = new ArrayList<>();
         // 未查询到数据
         if(mainPictures.size()==0){
-            return new ResponseResult(500,"主图片查询失败");
+//            return new ResponseResult(500,"主图片查询失败");
+            productDetail.setMainUrlList(null);
+        }else {
+            for (int i = 0; i < mainPictures.size(); i++) {
+                Picture picture = mainPictures.get(i);
+                String picurl = picture.getPicurl();
+                mainPicturesUrl.add(picurl);
+            }
+            // 主图url赋值
+            productDetail.setMainUrlList(mainPicturesUrl);
         }
-        for (int i = 0; i < mainPictures.size(); i++) {
-            Picture picture = mainPictures.get(i);
-            String picurl = picture.getPicurl();
-            mainPicturesUrl.add(picurl);
-        }
-        // 主图url赋值
-        productDetail.setMainUrlList(mainPicturesUrl);
         // 清空查询条件
         pictureQueryWrapper.clear();
         // 查询其余图片
@@ -181,16 +173,18 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         List<Picture> otherPictures = pictureMapper.selectList(pictureQueryWrapper);
         List<String> otherPicturesUrl = new ArrayList<>();
         if(otherPictures.size()==0){
-            return new ResponseResult(500,"主图片查询失败");
-        }
-        for (int i = 0; i < otherPictures.size(); i++) {
-            Picture picture = otherPictures.get(i);
-            String picurl = picture.getPicurl();
+//            return new ResponseResult(500,"副图片查询失败");
+            productDetail.setOtherUrlList(null);
+        }else {
+            for (int i = 0; i < otherPictures.size(); i++) {
+                Picture picture = otherPictures.get(i);
+                String picurl = picture.getPicurl();
 
-            otherPicturesUrl.add(picurl);
+                otherPicturesUrl.add(picurl);
+            }
+            // 其余图片url赋值
+            productDetail.setOtherUrlList(otherPicturesUrl);
         }
-        // 其余图片url赋值
-        productDetail.setOtherUrlList(otherPicturesUrl);
         return new ResponseResult(productDetail);
     }
 
@@ -218,6 +212,34 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     public int insertProduct(Product product) {
         int insert = productMapper.insert(product);
         return insert;
+    }
+
+    @Override
+    public ResponseResult selectByFarmFBE(Integer farmId,String keyWord) {
+        QueryWrapper<Product> productQueryWrapper = new QueryWrapper<>();
+        productQueryWrapper.eq("farmId",farmId);
+
+        List<ProductDetail> productDetails = new ArrayList<>();
+
+        if(keyWord != null){
+            productQueryWrapper.like("productName",keyWord);
+        }
+
+        List<Product> products = productMapper.selectList(productQueryWrapper);
+
+        if(products.size() == 0){
+            return new ResponseResult(500,"查询错误,无数据");
+        }
+
+        for (int i = 0; i < products.size(); i++) {
+            Product product = products.get(i);
+            Integer id = product.getId();
+            ResponseResult responseResult = this.productDetail(id);
+            ProductDetail productDetail = (ProductDetail) responseResult.getData();
+            productDetails.add(productDetail);
+        }
+
+        return new ResponseResult(productDetails);
     }
 
 

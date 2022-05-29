@@ -3,11 +3,9 @@ package com.cloudVillage.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cloudVillage.config.ResponseResult;
-import com.cloudVillage.entity.Address;
-import com.cloudVillage.entity.Farm;
-import com.cloudVillage.entity.OrderInfo;
-import com.cloudVillage.entity.UserRealInfo;
+import com.cloudVillage.entity.*;
 import com.cloudVillage.entity.crossResult.OrderDetail;
+import com.cloudVillage.entity.crossResult.ProductDetail;
 import com.cloudVillage.entity.crossResult.UserInfo;
 import com.cloudVillage.mapper.OrderInfoMapper;
 import com.cloudVillage.service.IAddressService;
@@ -41,11 +39,6 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Autowired
     private IAddressService addressService;
 
-
-
-
-
-
     @Override
     public ResponseResult selectOrderInfoAll(Integer id) {
 
@@ -65,21 +58,31 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         Integer addressid = orderInfo.getAddressid();
 
         ResponseResult oneUserAllInfo = userService.getOneUserAllInfo(userid);
-        UserInfo userInfo = (UserInfo) oneUserAllInfo.getData();
+//        System.out.println(oneUserAllInfo);
+        if(oneUserAllInfo.getCode()==null||oneUserAllInfo.getCode()==500){
+            orderDetail.setUserInfo(null);
+        }else {
+            UserInfo userInfo = (UserInfo) oneUserAllInfo.getData();
+            orderDetail.setUserInfo(userInfo);
+        }
 
         ResponseResult selectFarm = farmService.selectFarm(farmid);
-        Farm farm = (Farm) selectFarm.getData();
+        if(selectFarm.getCode()==null||selectFarm.getCode()==500) {
+            orderDetail.setFarm(null);
+        }else{
+            Farm farm = (Farm) selectFarm.getData();
+            orderDetail.setFarm(farm);
+        }
 
         ResponseResult selectAddress = addressService.selectAddress(addressid);
-        Address address = (Address) selectAddress.getData();
-
-        orderDetail.setAddress(address);
-        orderDetail.setFarm(farm);
-        orderDetail.setUserInfo(userInfo);
+        if(selectAddress.getCode()==null||selectAddress.getCode()==500){
+            orderDetail.setAddress(null);
+        }else{
+            Address address = (Address) selectAddress.getData();
+            orderDetail.setAddress(address);
+        }
         orderDetail.setOrderInfo(orderInfo);
-
         return new ResponseResult(orderDetail);
-
     }
 
     @Override
@@ -119,5 +122,32 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     public int insertOrder(OrderInfo orderInfo) {
         int insert = orderInfoMapper.insert(orderInfo);
         return insert;
+    }
+
+    @Override
+    public ResponseResult selectByFarmSetByUserAndNumberFBE(Integer farmId,  String number) {
+        QueryWrapper<OrderInfo> orderInfoQueryWrapper = new QueryWrapper<>();
+        orderInfoQueryWrapper.eq("farmId",farmId);
+
+        List<OrderDetail> orderDetails = new ArrayList<>();
+
+        if(number != null){
+            orderInfoQueryWrapper.like("orderNum",number);
+        }
+
+        List<OrderInfo> orderInfos = orderInfoMapper.selectList(orderInfoQueryWrapper);
+
+        if(orderInfos.size()==0){
+            return new ResponseResult(500,"查询错误,无数据");
+        }
+
+        for (int i = 0; i < orderInfos.size(); i++) {
+            OrderInfo orderInfo = orderInfos.get(i);
+            Integer id = orderInfo.getId();
+            ResponseResult responseResult = this.selectOrderInfoAll(id);
+            OrderDetail orderDetail = (OrderDetail) responseResult.getData();
+            orderDetails.add(orderDetail);
+        }
+        return new ResponseResult(orderDetails);
     }
 }

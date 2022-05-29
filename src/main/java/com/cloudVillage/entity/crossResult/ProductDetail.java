@@ -1,9 +1,6 @@
 package com.cloudVillage.entity.crossResult;
 
-import com.cloudVillage.entity.Category;
-import com.cloudVillage.entity.Farm;
-import com.cloudVillage.entity.Picture;
-import com.cloudVillage.entity.ProductSmall;
+import com.cloudVillage.entity.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,7 +16,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ProductDetail {
-    private ProductSmall productSmall;
+    private Product product;
     private Category category;
     private Farm farm;
     private List<String> mainUrlList;

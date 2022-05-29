@@ -193,7 +193,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         userInfo.setUser(user);
         Integer userinfoid = user.getUserinfoid();
         if(userinfoid==null){
-            return new ResponseResult(user);
+            return new ResponseResult(userInfo);
         }
         else{
             ResponseResult userRealInfoResponseResult = userRealInfoService.selectUserRealInfo(userinfoid);

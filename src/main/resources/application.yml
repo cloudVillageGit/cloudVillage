@@ -4,6 +4,10 @@ spring:
     username: root
     password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver
+  web:
+    resources:
+      static-locations:
+        - classpath:templates
 
 mybatis-plus:
   global-config:
@@ -24,6 +28,14 @@ mybatis-plus:
   #控制台输出
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#  七牛云
+oss:
+  qiniu:
+    url: rcly2ilbv.hd-bkt.clouddn.com # 这里如果有自己的域名就去绑定自己的 没有的就只能使用七牛云的测试域名
+    accessKey: vrfBN39_WWxlgLDcBio32heV_rXYlx3J3B-hyZ8w
+    secretKey: 3r3-k6pk0bsDAbKan_DhmrzZ7u5peUe6eUUqdT-t
+    bucketName: cloudtesting  #空间名
 
 
 

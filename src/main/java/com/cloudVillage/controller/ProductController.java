@@ -1,12 +1,18 @@
 package com.cloudVillage.controller;
 
 
+import com.cloudVillage.Util.PageListUtil;
 import com.cloudVillage.config.ResponseResult;
+import com.cloudVillage.entity.Farm;
 import com.cloudVillage.entity.Product;
 import com.cloudVillage.entity.UserRealInfo;
+import com.cloudVillage.entity.crossResult.ProductDetail;
 import com.cloudVillage.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.util.List;
 
 /**
  * <p>
@@ -82,5 +88,39 @@ public class ProductController {
             return new ResponseResult(500,"农产品已逻辑删除");
         }
     }
+    /**
+     * 插入产品信息
+     * @param product
+     * @return
+     */
+    @PostMapping("insertProduct")
+    public ResponseResult insertProduct(@RequestBody Product product){
+        int insertProduct = productService.insertProduct(product);
+        if(insertProduct == 1){
+            return new ResponseResult(200,"插入农产品成功");
+        }else{
+            return new ResponseResult(500,"插入农产品失败");
+        }
+    }
+
+
+    /**
+     * 后台部分
+     *  foreground-background environment  ->  FBE
+     */
+//    @PostMapping("selectProductsFBE")
+//    public ResponseResult selectProductsFBE(@RequestParam Integer farmId,
+//                                            @RequestParam(required = false) String keyword,
+//                                            @RequestParam(required = false,defaultValue = "1")Integer currentPage,
+//                                            @RequestParam(required = false,defaultValue = "3" )Integer pageSize){
+//
+//        List<ProductDetail> products = (List<ProductDetail>) productService.selectByFarmFBE(farmId, keyword).getData();
+//
+//        PageListUtil pageListUtil = new PageListUtil();
+//        com.baomidou.mybatisplus.extension.plugins.pagination.Page pages = pageListUtil.getPages(currentPage, pageSize, products);
+//
+//        return new ResponseResult(200,"查询成功",pages.getRecords());
+//    }
+
 
 }
