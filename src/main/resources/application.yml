@@ -29,13 +29,14 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-#  七牛云
+#  七牛
+
 oss:
   qiniu:
     url: rcly2ilbv.hd-bkt.clouddn.com # 这里如果有自己的域名就去绑定自己的 没有的就只能使用七牛云的测试域名
     accessKey: vrfBN39_WWxlgLDcBio32heV_rXYlx3J3B-hyZ8w
     secretKey: 3r3-k6pk0bsDAbKan_DhmrzZ7u5peUe6eUUqdT-t
-    bucketName: cloudtesting  #空间名
+    bucketName: cloudtestimg  #空间名
 
 
 
