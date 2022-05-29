@@ -1,13 +1,12 @@
 package com.cloudVillage.controller;
 
 
+
 import com.cloudVillage.config.ResponseResult;
-import com.cloudVillage.entity.Farm;
 import com.cloudVillage.entity.Farmer;
-import com.cloudVillage.entity.User;
-import com.cloudVillage.entity.UserRealInfo;
 import com.cloudVillage.service.IFarmerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/farmer")
 public class FarmerController {
-    @Autowired
+    @Qualifier
     private IFarmerService farmerService;
     /**
      * 修改个人信息

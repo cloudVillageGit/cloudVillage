@@ -37,10 +37,10 @@ public class ProductController {
     public ResponseResult SearchResponse(@PathVariable String keyWord){
         ResponseResult searchResultList = productService.searchProduct(keyWord);
         Integer code = searchResultList.getCode();
-        if(code==null)
-            return new ResponseResult(200,"查询成功",searchResultList);
-        else
-            return new ResponseResult(500,"查询失败");
+        if(code==null){
+            return new ResponseResult(200,"查询成功",searchResultList);}
+        else{
+            return new ResponseResult(500,"查询失败");}
     }
 
     /**
@@ -53,10 +53,10 @@ public class ProductController {
     public ResponseResult SearchDetail(@PathVariable Integer id){
         ResponseResult searchDetailList = productService.productDetail(id);
         Integer code = searchDetailList.getCode();
-        if(code==null)
-            return new ResponseResult(200,"查询成功",searchDetailList);
-        else
-            return new ResponseResult(500,"查询失败");
+        if(code==null){
+            return new ResponseResult(200,"查询成功",searchDetailList);}
+        else{
+            return new ResponseResult(500,"查询失败");}
     }
 
     /**
