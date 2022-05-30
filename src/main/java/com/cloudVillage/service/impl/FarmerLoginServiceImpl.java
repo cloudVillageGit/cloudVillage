@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cloudVillage.config.ResponseResult;
 import com.cloudVillage.entity.FarmerLogin;
+import com.cloudVillage.entity.User;
 import com.cloudVillage.entity.UserRealInfo;
 import com.cloudVillage.mapper.FarmerLoginMapper;
 import com.cloudVillage.mapper.FarmerMapper;
@@ -56,8 +57,10 @@ public class FarmerLoginServiceImpl extends ServiceImpl<FarmerLoginMapper, Farme
 
 
     @Override
-    public ResponseResult selectFarmerLogin(String name,String password) {
+    public ResponseResult selectFarmerLogin(String name,String password,String token) {
         QueryWrapper<FarmerLogin> farmerLoginQueryWrapper = new QueryWrapper<>();
+
+
         farmerLoginQueryWrapper.eq("fName",name);
         List<FarmerLogin> farmerLogins = farmerLoginMapper.selectList(farmerLoginQueryWrapper);
         if(farmerLogins.size() == 0){
@@ -66,11 +69,36 @@ public class FarmerLoginServiceImpl extends ServiceImpl<FarmerLoginMapper, Farme
             FarmerLogin farmerLogin = farmerLogins.get(0);
             String fpassword = farmerLogin.getFpassword();
             Integer farmId = farmerLogin.getFarmid();
+            Integer id = farmerLogin.getId();
+
+            UpdateWrapper<FarmerLogin> farmerLoginUpdateWrapper = new UpdateWrapper<>();
+            farmerLoginUpdateWrapper.set("farmerToken",token);
+            farmerLoginUpdateWrapper.eq("id",id);
+
+            farmerLoginMapper.update(null,farmerLoginUpdateWrapper);
+
             if( fpassword.equals(password) ){
                 return new ResponseResult(farmId);
             }else{
                 return new ResponseResult(607,"用户密码错误");
             }
+        }
+    }
+
+    @Override
+    public int checkFarmerToken(String farmerToken) {
+        QueryWrapper<FarmerLogin> farmerLoginQueryWrapper = new QueryWrapper<>();
+
+        farmerLoginQueryWrapper.eq("farmerToken", farmerToken);
+        List<FarmerLogin> farmerLogins = farmerLoginMapper.selectList(farmerLoginQueryWrapper);
+        FarmerLogin farmerLogin = new FarmerLogin();
+        if(farmerLogins.size()!=0){
+            farmerLogin = farmerLogins.get(0);
+        }
+        if(farmerLogins.size()!=0){
+            return farmerLogin.getId();
+        }else{
+            return -1;
         }
     }
 }

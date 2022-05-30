@@ -34,6 +34,8 @@ public class FarmerLogin {
     @TableField("farmId")
     private Integer farmid;
 
+    @TableField("FarmerToken")
+    private String farmertoken;
     /**
      * 逻辑删除 0未删除 1已删除
      */
