@@ -16,5 +16,6 @@ public interface IFarmerLoginService extends IService<FarmerLogin> {
     int updateFarmerLogin(FarmerLogin farmerLogin);
     int deleteFarmerLogin(Integer id);
     int insertFarmerLogin(FarmerLogin farmerLogin);
-    ResponseResult selectFarmerLogin(String name,String password);
+    ResponseResult selectFarmerLogin(String name,String password,String token);
+    int checkFarmerToken(String farmerToken);
 }
