@@ -60,7 +60,7 @@ public class AddressController {
      * @return
      */
     @DeleteMapping("deleteAddress")
-    public ResponseResult deleteAddress(@RequestBody Integer id){
+    public ResponseResult deleteAddress(@RequestParam Integer id){
         Integer delete = addressService.deleteAddress(id);
         if(delete==0){
             return new ResponseResult(500,"插入地址失败");
@@ -72,6 +72,16 @@ public class AddressController {
     @GetMapping("selectAddress/{id}")
     public ResponseResult selectAddress(@PathVariable Integer id){
         ResponseResult address = addressService.selectAddress(id);
+        if(address.getCode()==null){
+            return new ResponseResult(200,"查询地址信息成功",address);
+        }else{
+            return new ResponseResult(500,"查询地址信息失败");
+        }
+    }
+
+    @GetMapping("selectAddressByUserId/{userId}")
+    public ResponseResult selectUserAddress(@PathVariable Integer userId){
+        ResponseResult address = addressService.selectAddressByUserId(userId);
         if(address.getCode()==null){
             return new ResponseResult(200,"查询地址信息成功",address);
         }else{

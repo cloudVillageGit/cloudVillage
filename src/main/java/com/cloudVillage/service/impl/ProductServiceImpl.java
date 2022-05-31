@@ -69,7 +69,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
             List<Picture> pictures = pictureMapper.selectList(pictureQueryWrapper);
 
             if(pictures.size()==0){
-                return new ResponseResult(500,"农产品图片查询失败");
+                searchResult.setPicUrl(null);
+//                return new ResponseResult(500,"农产品图片查询失败");
             }else{
 
                 // 主图仅有一张

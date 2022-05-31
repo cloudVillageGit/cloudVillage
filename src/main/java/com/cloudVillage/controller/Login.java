@@ -84,9 +84,9 @@ public class Login {
     public ResponseResult<User> CheckLoginToken(@RequestParam("token")String userToken){
         int judge = loginService.checkToken(userToken);
         if(judge != -1){		// token有效
-            return new ResponseResult<User>(200,"token有效",null);
+            return new ResponseResult(200,"token有效",judge);
         }else{			// token无效
-            return new ResponseResult<User>(500,"token无效",null);
+            return new ResponseResult(500,"token无效",null);
         }
     }
 }

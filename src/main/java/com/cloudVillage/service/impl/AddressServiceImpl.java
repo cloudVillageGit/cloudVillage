@@ -30,12 +30,29 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
 
     @Override
     public Integer insertAddress(Address address) {
+
+        if( address.getDefaultAddress()){
+            UpdateWrapper<Address> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.set("defaultAddress",0);
+            updateWrapper.eq("userId",address.getUserId());
+            addressMapper.update(null,updateWrapper);
+        }
+
         int insert = addressMapper.insert(address);
+
         return insert;
     }
 
     @Override
     public Integer updateAddress(Address address) {
+
+        if( address.getDefaultAddress()){
+            UpdateWrapper<Address> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.set("defaultAddress",0);
+            updateWrapper.eq("userId",address.getUserId());
+            addressMapper.update(null,updateWrapper);
+        }
+
         UpdateWrapper<Address> addressUpdateWrapper = new UpdateWrapper<>();
         addressUpdateWrapper.eq("id",address.getId());
         System.out.println(address.toString());
@@ -59,5 +76,16 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
             return new ResponseResult(500,"查询失败");
         }
         return new ResponseResult(addressList.get(0));
+    }
+
+    @Override
+    public ResponseResult selectAddressByUserId(Integer userId) {
+        QueryWrapper<Address> addressQueryWrapper = new QueryWrapper<>();
+        addressQueryWrapper.eq("userId",userId);
+        List<Address> addressList = addressMapper.selectList(addressQueryWrapper);
+        if(addressList.size()==0){
+            return new ResponseResult(500,"查询失败");
+        }
+        return new ResponseResult(addressList);
     }
 }

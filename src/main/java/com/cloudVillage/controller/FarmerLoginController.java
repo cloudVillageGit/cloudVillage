@@ -1,5 +1,6 @@
 package com.cloudVillage.controller;
 
+import cn.hutool.json.JSONObject;
 import com.cloudVillage.config.ResponseResult;
 import com.cloudVillage.entity.FarmerLogin;
 import com.cloudVillage.entity.User;
@@ -24,12 +25,19 @@ public class FarmerLoginController {
     private IFarmerLoginService farmerLoginService;
 
     @PostMapping("farmer/login")
-    public ResponseResult loginFBE(@RequestParam String fName,@RequestParam String fPassword){
+    public ResponseResult loginFBE(@RequestParam String username,@RequestParam String password){
+        String fName=username;
+        String fPassword=password;
         String token = "FT" +  new Date().getTime();
         ResponseResult responseResult = farmerLoginService.selectFarmerLogin(fName, fPassword,token);
+
         if(responseResult.getCode() == null){
             Integer farmId = (Integer) responseResult.getData();
-            return new ResponseResult(200,"登陆成功",farmId);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("farmId",farmId);
+            jsonObject.put("token",token);
+            return new ResponseResult(200,"登陆成功",jsonObject);
         }
         else if(responseResult.getCode() == 606){
             return new ResponseResult(500,"无此用户");
@@ -39,6 +47,7 @@ public class FarmerLoginController {
             return null;
         }
     }
+
     /**
      * 查询token是否还有效
      * @param farmerToken 从前端返回的token

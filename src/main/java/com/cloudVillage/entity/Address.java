@@ -34,6 +34,9 @@ public class Address implements Serializable {
     @TableField("defaultAddress")
     private Boolean defaultAddress;
 
+    @TableField("currentLocation")
+    private String currentlocation;
+
     private String phone;
 
     private String name;

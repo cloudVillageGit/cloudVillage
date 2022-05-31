@@ -19,4 +19,5 @@ public interface IAddressService extends IService<Address> {
     public Integer updateAddress(Address address);
     public Integer deleteAddress(Integer id);
     public ResponseResult selectAddress(Integer id);
+    public ResponseResult selectAddressByUserId(Integer userId);
 }
