@@ -7,8 +7,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cloudVillage.Util.PageListUtil;
 import com.cloudVillage.config.QiNiuYunConfig;
 import com.cloudVillage.controller.PageHelper;
+import com.cloudVillage.entity.Address;
 import com.cloudVillage.entity.crossResult.ProductDetail;
 import com.cloudVillage.service.IProductService;
+import com.cloudVillage.service.impl.AddressServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -47,7 +49,8 @@ public class GeneratorTest {
 
     @Autowired
     private QiNiuYunConfig qiNiuYunConfig;
-
+    @Autowired
+    private AddressServiceImpl addressService;
     @Test
     public void test(){
 //        Page<ProductDetail> page = new Page<>();
@@ -61,7 +64,16 @@ public class GeneratorTest {
 //        System.out.println(pages.getRecords());
 //        PageHelper pageHelper = new PageHelper();
 //        pageHelper.selectOrdersFBE(1,)
-
-        System.out.println(qiNiuYunConfig.toString());
+//
+//        Address address = new Address();
+//        address.setCurrentlocation("!23");
+//        address.setDelivery("123213");
+//        address.setUserId(1);
+//        address.setId(9);
+//        address.setDelLogic(0);
+//        address.setName("123");
+//        address.setPhone("1231234");
+//        address.setDefaultAddress(true);
+//        Integer integer = addressService.updateAddress(address);
     }
 }

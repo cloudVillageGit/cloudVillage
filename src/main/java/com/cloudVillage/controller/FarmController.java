@@ -77,6 +77,20 @@ public class FarmController {
     }
 
     /**
+     * 获取农场的全部信息
+     */
+
+    @GetMapping("selectFarmDetail/{id}")
+    public ResponseResult selectFarmDetail(@PathVariable Integer id){
+        ResponseResult selectFarmDetail = farmService.selectFarmDetail(id);
+        if(selectFarmDetail.getCode() == null){
+            return new ResponseResult(200,"查询成功",selectFarmDetail);
+        }else{
+            return new ResponseResult(500,"查询农场信息失败");
+        }
+    }
+
+    /**
      * 插入农场信息
      * @param farm
      * @return

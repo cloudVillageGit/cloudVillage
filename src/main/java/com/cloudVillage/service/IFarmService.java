@@ -18,4 +18,5 @@ public interface IFarmService extends IService<Farm> {
     int deleteFarm(Integer id);
     int insertFarm(Farm farm);
     ResponseResult selectFarm(Integer id);
+    public ResponseResult selectFarmDetail(Integer id);
 }

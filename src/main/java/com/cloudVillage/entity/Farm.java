@@ -33,6 +33,10 @@ public class Farm implements Serializable {
     @TableField("addressId")
     private Integer addressid;
 
+
+    @TableField("farmAvatar")
+    private String farmAvatar;
+
     private String profiles;
 
     /**

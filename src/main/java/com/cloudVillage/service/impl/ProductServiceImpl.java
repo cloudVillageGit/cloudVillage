@@ -103,6 +103,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         // 给product
         productDetail.setProduct(product);
 
+
         // 查询对应分类
         QueryWrapper<Category> categoryQueryWrapper = new QueryWrapper<>();
         categoryQueryWrapper.eq("id",product.getClassid());
