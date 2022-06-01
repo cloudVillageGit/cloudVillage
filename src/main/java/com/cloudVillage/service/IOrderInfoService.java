@@ -18,6 +18,6 @@ public interface IOrderInfoService extends IService<OrderInfo> {
     public ResponseResult selectAllOrderInfoAll();
     int updateOrder(OrderInfo orderInfo);
     int deleteOrder(Integer id);
-    int insertOrder(OrderInfo orderInfo);
+    ResponseResult insertOrder(OrderInfo orderInfo);
     public ResponseResult selectByFarmSetByUserAndNumberFBE(Integer farmId,String number);
 }

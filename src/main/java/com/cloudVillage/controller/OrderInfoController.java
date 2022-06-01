@@ -91,11 +91,11 @@ public class OrderInfoController {
      * @param orderInfo
      * @return
      */
-    @PostMapping("insertUserRealInfo")
-    public ResponseResult insertUserRealInfo(@RequestBody OrderInfo orderInfo){
-        int insertUserRealInfo = orderInfoService.insertOrder(orderInfo);
-        if(insertUserRealInfo == 1){
-            return new ResponseResult(200,"插入订单成功");
+    @PostMapping("insertOrderInfo")
+    public ResponseResult insertOrderInfo(@RequestBody OrderInfo orderInfo){
+        ResponseResult insertOrderInfo = orderInfoService.insertOrder(orderInfo);
+        if(insertOrderInfo.getCode() == 200){
+            return new ResponseResult(200,"插入订单成功",insertOrderInfo.getData());
         }else{
             return new ResponseResult(500,"插入订单失败");
         }

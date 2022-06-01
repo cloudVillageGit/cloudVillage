@@ -9,6 +9,7 @@ import com.cloudVillage.config.QiNiuYunConfig;
 import com.cloudVillage.controller.PageHelper;
 import com.cloudVillage.entity.Address;
 import com.cloudVillage.entity.crossResult.ProductDetail;
+import com.cloudVillage.service.IOrderInfoService;
 import com.cloudVillage.service.IProductService;
 import com.cloudVillage.service.impl.AddressServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -51,8 +52,12 @@ public class GeneratorTest {
     private QiNiuYunConfig qiNiuYunConfig;
     @Autowired
     private AddressServiceImpl addressService;
+
+    @Autowired
+    private IOrderInfoService orderInfoService;
     @Test
     public void test(){
+//        orderInfoService.sele
 //        Page<ProductDetail> page = new Page<>();
 //        //设置每页大小
 //        page.setSize(2);

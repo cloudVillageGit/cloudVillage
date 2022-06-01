@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,27 +59,26 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         Integer addressid = orderInfo.getAddressid();
 
         ResponseResult oneUserAllInfo = userService.getOneUserAllInfo(userid);
-//        System.out.println(oneUserAllInfo);
-        if(oneUserAllInfo.getCode()==null||oneUserAllInfo.getCode()==500){
+        UserInfo userInfo = (UserInfo) oneUserAllInfo.getData();
+        if(userInfo.getUser().getId()==null){
             orderDetail.setUserInfo(null);
         }else {
-            UserInfo userInfo = (UserInfo) oneUserAllInfo.getData();
             orderDetail.setUserInfo(userInfo);
         }
 
         ResponseResult selectFarm = farmService.selectFarm(farmid);
-        if(selectFarm.getCode()==null||selectFarm.getCode()==500) {
+        Farm farm = (Farm) selectFarm.getData();
+        if(farm.getId()!=null) {
             orderDetail.setFarm(null);
         }else{
-            Farm farm = (Farm) selectFarm.getData();
             orderDetail.setFarm(farm);
         }
 
         ResponseResult selectAddress = addressService.selectAddress(addressid);
-        if(selectAddress.getCode()==null||selectAddress.getCode()==500){
+        Address address = (Address) selectAddress.getData();
+        if(address.getId()==null){
             orderDetail.setAddress(null);
         }else{
-            Address address = (Address) selectAddress.getData();
             orderDetail.setAddress(address);
         }
         orderDetail.setOrderInfo(orderInfo);
@@ -119,9 +119,16 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     }
 
     @Override
-    public int insertOrder(OrderInfo orderInfo) {
+    public ResponseResult insertOrder(OrderInfo orderInfo) {
+        String orderStamp = "td_"+new Date().getTime();
+        orderInfo.setOrdernum(orderStamp);
         int insert = orderInfoMapper.insert(orderInfo);
-        return insert;
+        Integer id = orderInfo.getId();
+        if(insert == 1){
+            return new ResponseResult(200,"插入成功",orderInfo.getId());
+        }else{
+            return new ResponseResult(500,"插入失败");
+        }
     }
 
     @Override

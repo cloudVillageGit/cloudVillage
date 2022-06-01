@@ -53,7 +53,7 @@ public class OrderProductController {
     }
 
     /**
-     * 插入用户真实信息
+     * 插入订单——产品真实信息
      * @param orderProduct
      * @return
      */
