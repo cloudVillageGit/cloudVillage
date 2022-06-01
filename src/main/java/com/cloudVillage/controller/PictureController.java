@@ -1,9 +1,10 @@
 package com.cloudVillage.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import com.cloudVillage.config.ResponseResult;
+import com.cloudVillage.service.IPictureService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -16,5 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/picture")
 public class PictureController {
+    @Autowired
+    private IPictureService pictureService;
 
+    @PostMapping("selectPicture")
+    public ResponseResult selectPicture(@RequestParam String charsName,@RequestParam Integer charsId) {
+        ResponseResult responseResult = pictureService.selectByCharNameAndCharsId(charsName, charsId);
+        if(responseResult.getCode() == 500){
+            return new ResponseResult(500,"图片未找到");
+        }else{
+            return new ResponseResult(200,"图片查找成功",responseResult.getData());
+        }
+    }
 }

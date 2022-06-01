@@ -18,4 +18,5 @@ public interface IOrderProductService extends IService<OrderProduct> {
     int deleteOrderProduct(Integer id);
     int insertOrderProduct(OrderProduct orderProduct);
     ResponseResult selectOrderProduct(Integer id);
+    ResponseResult selectOrderProductByOrderId(Integer orderId);
 }

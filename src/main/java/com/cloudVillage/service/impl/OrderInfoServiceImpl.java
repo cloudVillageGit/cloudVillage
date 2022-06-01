@@ -68,7 +68,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
         ResponseResult selectFarm = farmService.selectFarm(farmid);
         Farm farm = (Farm) selectFarm.getData();
-        if(farm.getId()!=null) {
+        if(farm.getId()==null) {
             orderDetail.setFarm(null);
         }else{
             orderDetail.setFarm(farm);
@@ -134,8 +134,11 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Override
     public ResponseResult selectByFarmSetByUserAndNumberFBE(Integer farmId,  String number) {
         QueryWrapper<OrderInfo> orderInfoQueryWrapper = new QueryWrapper<>();
-        orderInfoQueryWrapper.eq("farmId",farmId);
-
+        if(farmId == null){
+//            orderInfoQueryWrapper
+        }else {
+            orderInfoQueryWrapper.eq("farmId", farmId);
+        }
         List<OrderDetail> orderDetails = new ArrayList<>();
 
         if(number != null){

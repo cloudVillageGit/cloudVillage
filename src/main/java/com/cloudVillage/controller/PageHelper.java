@@ -52,7 +52,7 @@ public class PageHelper {
 
 
     @PostMapping("selectOrderFBE")
-    public ResponseResult selectOrdersFBE(@RequestParam Integer farmId,
+    public ResponseResult selectOrdersFBE(@RequestParam(required = false) Integer farmId,
                                             @RequestParam(required = false) String number,
                                             @RequestParam(required = false,defaultValue = "1")Integer currentPage,
                                             @RequestParam(required = false,defaultValue = "3" )Integer pageSize){

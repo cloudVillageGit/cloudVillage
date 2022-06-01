@@ -81,6 +81,14 @@ public class OrderProductController {
 //            return new ResponseResult(500,"查询订单_产品关系失败");
 //        }
         return new ResponseResult(200,"查询订单_产品关系成功",selectOrderAndProduct);
+    }
 
+    /**
+     * 根据orderId查找出完整信息
+     */
+    @GetMapping("selectOrderProductByOrderId/{orderId}")
+    public ResponseResult selectOrderAndProductByUserId(@PathVariable Integer orderId){
+        ResponseResult selectOrderAndProductByUserId = orderProductService.selectOrderProductByOrderId(orderId);
+        return new ResponseResult(200,"查询订单_产品关系成功",selectOrderAndProductByUserId.getData());
     }
 }

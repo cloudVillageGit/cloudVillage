@@ -91,6 +91,35 @@ public class OrderProductServiceImpl extends ServiceImpl<OrderProductMapper, Ord
         orderProductDetail.setProduct(product);
 
         return new ResponseResult(200,"查询成功",orderProductDetail);
+    }
+
+    @Override
+    public ResponseResult selectOrderProductByOrderId(Integer orderId) {
+        QueryWrapper<OrderProduct> orderProductQueryWrapper = new QueryWrapper<>();
+        orderProductQueryWrapper.eq("orderId",orderId);
+        List<OrderProduct> orderProducts = orderProductMapper.selectList(orderProductQueryWrapper);
+        if(orderProducts.size() == 0){
+            return new ResponseResult(500,"查询错误");
+        }
+
+        OrderProduct orderProduct = orderProducts.get(0);
+
+        Integer _id = orderProduct.getId();
+        Integer evaluateid = orderProduct.getEvaluateid();
+        Integer productid = orderProduct.getProductid();
+        Integer orderid = orderProduct.getOrderid();
+
+        Evaluate evaluate = evaluateMapper.selectById(evaluateid);
+        Product product = productMapper.selectById(productid);
+        OrderInfo orderInfo = orderInfoMapper.selectById(orderid);
+
+        OrderProductDetail orderProductDetail = new OrderProductDetail();
+
+        orderProductDetail.setEvaluate(evaluate);
+        orderProductDetail.setOrderInfo(orderInfo);
+        orderProductDetail.setProduct(product);
+
+        return new ResponseResult(200,"查询成功",orderProductDetail);
 
     }
 }

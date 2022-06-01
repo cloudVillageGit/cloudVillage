@@ -55,10 +55,14 @@ public class FarmerLoginController {
     @PostMapping("CheckLoginToken")
     public ResponseResult<FarmerLogin> checkFarmerLoginToken(@RequestParam("token")String farmerToken){
         int judge = farmerLoginService.checkFarmerToken(farmerToken);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name","admin");
+        jsonObject.put("avatar","http://rcg5n6qxc.hd-bkt.clouddn.com/farmer/1.jpg");
         if(judge != -1){		// token有效
-            return new ResponseResult<FarmerLogin>(200,"token有效",null);
+            return new ResponseResult(200,"token有效",jsonObject);
         }else{			// token无效
             return new ResponseResult<FarmerLogin>(500,"token无效",null);
         }
     }
+
 }
