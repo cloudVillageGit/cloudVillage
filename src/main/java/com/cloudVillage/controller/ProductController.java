@@ -104,23 +104,7 @@ public class ProductController {
     }
 
 
-    /**
-     * 后台部分
-     *  foreground-background environment  ->  FBE
-     */
-//    @PostMapping("selectProductsFBE")
-//    public ResponseResult selectProductsFBE(@RequestParam Integer farmId,
-//                                            @RequestParam(required = false) String keyword,
-//                                            @RequestParam(required = false,defaultValue = "1")Integer currentPage,
-//                                            @RequestParam(required = false,defaultValue = "3" )Integer pageSize){
-//
-//        List<ProductDetail> products = (List<ProductDetail>) productService.selectByFarmFBE(farmId, keyword).getData();
-//
-//        PageListUtil pageListUtil = new PageListUtil();
-//        com.baomidou.mybatisplus.extension.plugins.pagination.Page pages = pageListUtil.getPages(currentPage, pageSize, products);
-//
-//        return new ResponseResult(200,"查询成功",pages.getRecords());
-//    }
+
 
 
 }

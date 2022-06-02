@@ -14,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPictureService extends IService<Picture> {
     public ResponseResult selectByCharNameAndCharsId(String charsName,Integer charsId);
+    public ResponseResult deleteByChartNameAndId(String chartName,Integer chartId);
+    public ResponseResult insertPicture(Picture picture);
 }

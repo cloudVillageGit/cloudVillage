@@ -33,11 +33,12 @@ public class PageHelper {
      * 后台部分
      *  foreground-background environment  ->  FBE
      */
+
     @PostMapping("selectProductsFBE")
-    public ResponseResult selectProductsFBE(@RequestParam Integer farmId,
+    public ResponseResult selectProductsFBE(@RequestParam(required = false) Integer farmId,
                                             @RequestParam(required = false) String keyword,
                                             @RequestParam(required = false,defaultValue = "1")Integer currentPage,
-                                            @RequestParam(required = false,defaultValue = "3" )Integer pageSize){
+                                            @RequestParam(required = false,defaultValue = "9999")Integer pageSize){
 
         List<ProductDetail> products = (List<ProductDetail>) productService.selectByFarmFBE(farmId, keyword).getData();
 
@@ -49,6 +50,23 @@ public class PageHelper {
         jsonObject.put("total",products.size());
         return new ResponseResult(200,"查询成功",jsonObject);
     }
+
+//    @PostMapping("selectProductsFBE")
+//    public ResponseResult selectProductsFBE(@RequestParam Integer farmId,
+//                                            @RequestParam(required = false) String keyword,
+//                                            @RequestParam(required = false,defaultValue = "1")Integer currentPage,
+//                                            @RequestParam(required = false,defaultValue = "3" )Integer pageSize){
+//
+//        List<ProductDetail> products = (List<ProductDetail>) productService.selectByFarmFBE(farmId, keyword).getData();
+//
+//        PageListUtil pageListUtil = new PageListUtil();
+//        Page pages = pageListUtil.getPages(currentPage, pageSize, products);
+//
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("list",pages.getRecords());
+//        jsonObject.put("total",products.size());
+//        return new ResponseResult(200,"查询成功",jsonObject);
+//    }
 
 
     @PostMapping("selectOrderFBE")

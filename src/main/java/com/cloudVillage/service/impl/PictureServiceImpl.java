@@ -37,4 +37,22 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
             return new ResponseResult(200,"图片已找到",pictures.get(0));
         }
     }
+
+    @Override
+    public ResponseResult deleteByChartNameAndId(String chartName, Integer chartId) {
+        QueryWrapper<Picture> pictureQueryWrapper = new QueryWrapper<>();
+        pictureQueryWrapper.eq("chartsName",chartName);
+        pictureQueryWrapper.eq("charsId",chartId);
+        List<Picture> pictures = pictureMapper.selectList(pictureQueryWrapper);
+        if(pictures.size() == 0){
+            return new ResponseResult(500,"删除失败");
+        }else{
+            return new ResponseResult(200,"删除成功");
+        }
+    }
+
+    @Override
+    public ResponseResult insertPicture(Picture picture) {
+        return null;
+    }
 }

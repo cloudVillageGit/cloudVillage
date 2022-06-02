@@ -219,7 +219,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     @Override
     public ResponseResult selectByFarmFBE(Integer farmId,String keyWord) {
         QueryWrapper<Product> productQueryWrapper = new QueryWrapper<>();
-        productQueryWrapper.eq("farmId",farmId);
+        if(farmId!=null){
+            productQueryWrapper.eq("farmId",farmId);
+        }
 
         List<ProductDetail> productDetails = new ArrayList<>();
 

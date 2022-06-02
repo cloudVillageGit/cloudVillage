@@ -34,10 +34,13 @@ public class UploadController {
     @ResponseBody
     private ResponseResult upLoadImage(@RequestParam("file") MultipartFile file) {
         //System.out.println(file);
+
         if (!file.isEmpty()) {
             String path = uploadImageService.uploadQNImg(file);
+            System.out.println(path);
+            return new ResponseResult(200,"图片添加至七牛云成功",path);
         }
-        return new ResponseResult(200);
+        return new ResponseResult(500,"图片添加至七牛云失败");
     }
 
     /*
