@@ -80,18 +80,21 @@ public class OrderTrackServiceImpl extends ServiceImpl<OrderTrackMapper, OrderTr
         List<OrderTrackMedium> orderTrackMediaList = orderTrackMediumMapper.selectList(orderTrackMediumQueryWrapper);
         OrderTrackMedium orderTrackMedium = new OrderTrackMedium();
 
-        // json
-        JSONObject productionNoteArrayOne = new JSONObject();
+
         List<JSONObject> jsonObjectList = new ArrayList<>();
 
 
         if (orderTrackMediaList.size() != 0) {
+
             for (int i = 0; i < orderTrackMediaList.size(); i++) {
+                // json
+                JSONObject productionNoteArrayOne = new JSONObject();
+
                 orderTrackMedium = orderTrackMediaList.get(i);
                 // json
                 productionNoteArrayOne.put("id",id);
                 productionNoteArrayOne.put("noteTime",orderTrackMedium.getWorktime());
-                productionNoteArrayOne.put("workImg",orderTrackMedium.getWorktime());
+                productionNoteArrayOne.put("workImg",orderTrackMedium.getWorkimg());
 
                 Integer mediumId = orderTrackMedium.getId();
                 QueryWrapper<OrderTrackSmall> orderTrackSmallQueryWrapper = new QueryWrapper<>();

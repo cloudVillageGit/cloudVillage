@@ -8,11 +8,9 @@ import com.cloudVillage.entity.crossResult.OrderDetail;
 import com.cloudVillage.entity.crossResult.ProductDetail;
 import com.cloudVillage.entity.crossResult.UserInfo;
 import com.cloudVillage.mapper.OrderInfoMapper;
-import com.cloudVillage.service.IAddressService;
-import com.cloudVillage.service.IFarmService;
-import com.cloudVillage.service.IOrderInfoService;
+import com.cloudVillage.mapper.OrderProductMapper;
+import com.cloudVillage.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cloudVillage.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +37,10 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     private IFarmService farmService;
     @Autowired
     private IAddressService addressService;
+    @Autowired
+    private OrderProductMapper orderProductMapper;
+    @Autowired
+    private IOrderProductService orderProductService;
 
     @Override
     public ResponseResult selectOrderInfoAll(Integer id) {
@@ -114,8 +116,17 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         if(orderInfoList.size() == 0){
             return -1;
         }
-        int delete = orderInfoMapper.delete(orderInfoQueryWrapper);
-        return delete;
+        int deleteOrderInfo = orderInfoMapper.delete(orderInfoQueryWrapper);
+        QueryWrapper<OrderProduct> orderProductQueryWrapper = new QueryWrapper<>();
+        orderProductQueryWrapper.eq("orderId",id);
+        List<OrderProduct> orderProducts = orderProductMapper.selectList(orderProductQueryWrapper);
+        OrderProduct orderProduct = orderProducts.get(0);
+        int deleteOrderProduct = orderProductService.deleteOrderProduct(orderProduct.getId());
+        if(deleteOrderInfo==deleteOrderProduct){
+            return 1;
+        }else {
+            return 0;
+        }
     }
 
     @Override

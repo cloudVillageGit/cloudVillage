@@ -120,6 +120,6 @@ public class OrderProductServiceImpl extends ServiceImpl<OrderProductMapper, Ord
         orderProductDetail.setProduct(product);
 
         return new ResponseResult(200,"查询成功",orderProductDetail);
-
     }
+
 }

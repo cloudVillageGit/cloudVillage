@@ -147,7 +147,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
 
         // 前五张图片
         pictureQueryWrapper.eq("chartsName","product");
-        pictureQueryWrapper.between("judgeStype","1","5");
+        pictureQueryWrapper.between("judgeStype","0","5");
         pictureQueryWrapper.eq("charsId",id);
 
         List<Picture> mainPictures = pictureMapper.selectList(pictureQueryWrapper);
