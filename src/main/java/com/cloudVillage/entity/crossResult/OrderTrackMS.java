@@ -18,6 +18,6 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class OrderTrackMS {
-    private OrderTrackMedium orderTrackMedium;
-    private List<OrderTrackSmall> OrderTrackSmallList;
+    private OrderTrackSmall orderTrackSmall;
+    private List<OrderTrackMedium> orderTrackMediumList;
 }
