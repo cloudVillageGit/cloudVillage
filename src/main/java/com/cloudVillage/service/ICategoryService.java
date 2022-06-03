@@ -14,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ICategoryService extends IService<Category> {
     public ResponseResult CategoryList(String keyWord);
+    public ResponseResult searchTop(String categoryTop);
+    public ResponseResult searchSecond(String categorySecond);
 }
