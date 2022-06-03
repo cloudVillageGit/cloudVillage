@@ -1,11 +1,11 @@
 package com.cloudVillage.service.impl;
 
-import cn.hutool.core.lang.hash.Hash;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cloudVillage.config.ResponseResult;
 import com.cloudVillage.entity.Category;
 import com.cloudVillage.entity.Picture;
 import com.cloudVillage.entity.crossResult.CategoryDetail;
+import com.cloudVillage.entity.crossResult.CategoryTSCross;
 import com.cloudVillage.mapper.CategoryMapper;
 import com.cloudVillage.mapper.PictureMapper;
 import com.cloudVillage.service.ICategoryService;
@@ -128,5 +128,58 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         System.out.println(list.toString());
 
         return new ResponseResult(list);
+    }
+
+    @Override
+    public ResponseResult searchTop(String categoryTop) {
+        List<CategoryTSCross> categoryTSCrossList = new ArrayList<>();
+        QueryWrapper<Category> categoryQueryWrapper= new QueryWrapper<>();
+        if(categoryTop!=null) {
+            categoryQueryWrapper.eq("categoryTop", categoryTop);
+        }
+        List<Category> categoryList = categoryMapper.selectList(categoryQueryWrapper);
+        if(categoryList.size()==0){
+            return new ResponseResult(500,"查询失败");
+        }else{
+            Set<String> categoryTopNameSet = new HashSet<>();
+            for (int i = 0; i < categoryList.size(); i++) {
+                Category category = categoryList.get(i);
+                categoryTopNameSet.add(category.getCategorytop());
+            }
+            for (String s : categoryTopNameSet) {
+                CategoryTSCross categoryTSCross = new CategoryTSCross();
+                categoryQueryWrapper.clear();
+                categoryTSCross.setCategoryTop(s);
+
+                categoryQueryWrapper.eq("categoryTop",s);
+                List<Category> _categoryList = categoryMapper.selectList(categoryQueryWrapper);
+                Set<String> _categorySecondNameList = new HashSet<>();
+                for (int i = 0; i < _categoryList.size(); i++) {
+                    Category category = _categoryList.get(i);
+                    String categorysecond = category.getCategorysecond();
+                    _categorySecondNameList.add(categorysecond);
+                }
+                categoryTSCross.setCategorySecond(_categorySecondNameList);
+                categoryTSCrossList.add(categoryTSCross);
+            }
+        }
+        return new ResponseResult(200,"查询成功",categoryTSCrossList);
+    }
+
+    @Override
+    public ResponseResult searchSecond(String categorySecond) {
+        QueryWrapper<Category> categoryQueryWrapper= new QueryWrapper<>();
+        categoryQueryWrapper.eq("categorySecond",categorySecond);
+        List<Category> categories = categoryMapper.selectList(categoryQueryWrapper);
+        Set<String> thirdNameSet = new HashSet<>();
+        if(categories.size() == 0){
+            return new ResponseResult(500,"查询三级目录失败");
+        }else{
+            for (int i = 0; i < categories.size(); i++) {
+                Category category = categories.get(i);
+                thirdNameSet.add(category.getCategorythird());
+            }
+            return new ResponseResult(200,"查询三级目录成功",thirdNameSet);
+        }
     }
 }
