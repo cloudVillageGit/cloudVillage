@@ -38,5 +38,12 @@ public class OrderTrackController {
         }
         return new ResponseResult(500,"查询生产小记失败");
     }
-
+    @GetMapping("getOTByProductId/{id}")
+    public ResponseResult getOTByProductId(@PathVariable Integer id){
+        ResponseResult result = orderTrackService.orderTrackByProductId(id);
+        if(result.getCode() == 200){
+            return new ResponseResult(200,"查询生产小记大表成功",result.getData());
+        }
+        return new ResponseResult(500,"查询生产小记大表失败");
+    }
 }

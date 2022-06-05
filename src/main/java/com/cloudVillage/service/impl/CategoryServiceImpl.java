@@ -171,15 +171,19 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         QueryWrapper<Category> categoryQueryWrapper= new QueryWrapper<>();
         categoryQueryWrapper.eq("categorySecond",categorySecond);
         List<Category> categories = categoryMapper.selectList(categoryQueryWrapper);
-        Set<String> thirdNameSet = new HashSet<>();
+//        Set<String> thirdNameSet = new HashSet<>();
+        Set<Map<Integer,String>> thirdIdAndNameSet = new HashSet<>();
         if(categories.size() == 0){
             return new ResponseResult(500,"查询三级目录失败");
         }else{
             for (int i = 0; i < categories.size(); i++) {
                 Category category = categories.get(i);
-                thirdNameSet.add(category.getCategorythird());
+                Map<Integer,String> map = new HashMap<>();
+                map.put(category.getId(),category.getCategorythird());
+                thirdIdAndNameSet.add(map);
+//                thirdNameSet.add(category.getCategorythird());
             }
-            return new ResponseResult(200,"查询三级目录成功",thirdNameSet);
+            return new ResponseResult(200,"查询三级目录成功",thirdIdAndNameSet);
         }
     }
 }

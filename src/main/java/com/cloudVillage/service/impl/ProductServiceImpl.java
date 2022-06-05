@@ -211,9 +211,14 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     @Override
-    public int insertProduct(Product product) {
+    public ResponseResult insertProduct(Product product) {
         int insert = productMapper.insert(product);
-        return insert;
+        if(insert == 1){
+            Integer id = product.getId();
+            return new ResponseResult(200,"插入成功",id);
+        }else{
+            return new ResponseResult(500,"插入失败");
+        }
     }
 
     @Override

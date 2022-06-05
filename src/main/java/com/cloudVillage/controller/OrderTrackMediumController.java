@@ -26,7 +26,7 @@ public class OrderTrackMediumController {
     public ResponseResult otmInsert(@RequestParam Integer otId,@RequestParam String workImg){
         ResponseResult insert = orderTrackMediumService.insert(otId, workImg);
         if(insert.getCode() == 200){
-            return new ResponseResult(200,"添加成功");
+            return new ResponseResult(200,"添加成功",insert.getData());
         }else {
             return new ResponseResult(500, "添加失败");
         }

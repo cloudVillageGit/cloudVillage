@@ -17,4 +17,5 @@ public interface IOrderTrackService extends IService<OrderTrack> {
      * 订单追踪所有信息 大表关联中表关联小表
      */
     public ResponseResult orderTrackAllInfo(Integer id);
+    public ResponseResult orderTrackByProductId(Integer productId);
 }

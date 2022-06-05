@@ -20,7 +20,7 @@ public interface IProductService extends IService<Product> {
     public ResponseResult productDetail(Integer id);
     int updateProduct(Product product);
     int deleteProduct(Integer id);
-    int insertProduct(Product product);
+    ResponseResult insertProduct(Product product);
 
     public ResponseResult selectByFarmFBE(Integer farmId,String keyWord);
 

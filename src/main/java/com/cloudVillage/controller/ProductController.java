@@ -95,9 +95,9 @@ public class ProductController {
      */
     @PostMapping("insertProduct")
     public ResponseResult insertProduct(@RequestBody Product product){
-        int insertProduct = productService.insertProduct(product);
-        if(insertProduct == 1){
-            return new ResponseResult(200,"插入农产品成功");
+        ResponseResult insertProduct = productService.insertProduct(product);
+        if(insertProduct.getCode() == 200){
+            return new ResponseResult(200,"插入农产品成功",insertProduct.getData());
         }else{
             return new ResponseResult(500,"插入农产品失败");
         }
