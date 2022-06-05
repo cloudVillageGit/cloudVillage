@@ -132,4 +132,17 @@ public class OrderTrackServiceImpl extends ServiceImpl<OrderTrackMapper, OrderTr
 //        return null;
         return new ResponseResult(jsonObjectNote);
     }
+
+    @Override
+    public ResponseResult orderTrackByProductId(Integer productId) {
+        QueryWrapper<OrderTrack> orderTrackQueryWrapper= new QueryWrapper<>();
+        orderTrackQueryWrapper.eq("productId",productId);
+        List<OrderTrack> orderTracks = orderTrackMapper.selectList(orderTrackQueryWrapper);
+        if(orderTracks.size()== 0){
+            return new ResponseResult(500,"查询失败");
+        }else{
+            return new ResponseResult(200,"查询成功",orderTracks.get(0));
+        }
+    }
+
 }
